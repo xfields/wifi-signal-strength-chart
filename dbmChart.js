@@ -7,7 +7,6 @@ function drawWifiDbmChart(chart, dataArr, options) {
   var xAxisData = getXAxisData(dataArr)
   var seriesData = getInterpolatedData(dataArr, xAxisData) // 数据插值
   var chartOpts = getEchartOptions(xAxisData, seriesData, options)
-  console.log(111, chartOpts)
   chart.setOption(chartOpts, true)
 }
 
