@@ -143,13 +143,22 @@ function getEchartOptions(xAxisData, seriesData, options) {
   // 指定图表的配置项和数据
   return {
       title: {
+        textStyle: {
+          color: '#eee'
+        },
         text: options.chartTitle
       },
+      backgroundColor: '#222',
       toolbox: {
         show: true,
         feature: {
           dataZoom: {
             yAxisIndex: 'none'
+          }
+        },
+        iconStyle: {
+          normal: {
+            borderColor: '#eee'
           }
         }
       },
@@ -158,12 +167,22 @@ function getEchartOptions(xAxisData, seriesData, options) {
         formatter: getTip
       },
       xAxis: {
+        axisLine: {
+          lineStyle: {
+            color: '#eee'
+          }
+        },
         boundaryGap: [0, '20%'],
         splitLine: {
           show: false
         }
       },
       yAxis: {
+        axisLine: {
+          lineStyle: {
+            color: '#eee'
+          }
+        },
         boundaryGap: [0, '20%'],
       },
       series: series
