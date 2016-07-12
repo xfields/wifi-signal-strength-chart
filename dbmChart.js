@@ -1,13 +1,36 @@
+
+var Y_OFFSET = 100
 /**
  * element {DOM Element} - element container for chart
  * dataArr {Array} - data series [{name, centerFreq, bandwidth, peak}]
  * options {Object} - options of echart, include: chartTitle
  */
 function drawWifiDbmChart(chart, dataArr, options) {
+  var dataArr = batchOffsetPeak(dataArr)
   var xAxisData = getXAxisData(dataArr)
   var seriesData = getInterpolatedData(dataArr, xAxisData) // 数据插值
   var chartOpts = getEchartOptions(xAxisData, seriesData, options)
   chart.setOption(chartOpts, true)
+}
+
+function batchOffsetPeak(dataArr) {
+  return dataArr.map(function(data) {
+    data.peak = Y_OFFSET - data.peak
+    return data
+  })
+}
+
+function batchConvertdBm(dataArr) {
+  return dataArr.map(function(data) {
+    var p = data.peak
+    data.peak = Math.pow(10, p / 10) * 1000
+    return data
+  })
+}
+
+// 微瓦 转 dBm
+function uw2dBm(uw) {
+  // return Math.pow(10, dBm / 10) * 1000
 }
 
 function getFreqRange(dataArr) {
@@ -103,10 +126,10 @@ function getEchartOptions(xAxisData, seriesData, options) {
           }
         },
         data: [[{
-          coord: [item.centerFreq, item.peak * 1.1],
+          coord: [item.centerFreq, item.peak + 3],
           symbol: 'none'
         }, {
-          coord: [item.centerFreq, item.peak * 1.1],
+          coord: [item.centerFreq, item.peak + 3],
           symbol: 'none'
         }]]
       },
@@ -117,7 +140,7 @@ function getEchartOptions(xAxisData, seriesData, options) {
       },
       markPoint: {
         symbol: 'circle',
-        symbolSize: [8, 8],
+        symbolSize: [6, 6],
         // silent: true,
         // symbolOffset: [0, '-60%'],
         label: {
@@ -167,33 +190,56 @@ function getEchartOptions(xAxisData, seriesData, options) {
         formatter: getTip
       },
       xAxis: {
+        name: 'wifi信道',
+        nameLocation: 'middle',
+        nameGap: 30,
         interval: 1,
         axisLine: {
+          onZero: false,
           lineStyle: {
             color: '#eee'
           }
         },
-        boundaryGap: [0, '5%'],
+        axisLabel: {
+          formatter: xLabelFormatter
+        },
+        min: -1,
+        max: 16,
         splitLine: {
           show: false
         }
       },
       yAxis: {
+        name: '信号强度[dBm]',
+        nameLocation: 'middle',
+        nameGap: 40,
+        axisLabel: {
+          formatter: yLabelFormatter
+        },
         axisLine: {
+          onZero: false,
           lineStyle: {
             color: '#eee'
           }
         },
-        boundaryGap: [0, '20%'],
+        boundaryGap: [0, '5%'],
       },
       series: series
   }
 }
 
+function xLabelFormatter(value) {
+  return (value >= 1 && value <= 14) ? value : ''
+}
+
+function yLabelFormatter(value) {
+  return value - Y_OFFSET
+}
+
 function getTip(params) {
   var name = params.seriesName
   name = name.replace(/#\d+$/g, '')
-  return name + '<br\>' + '峰值：' + params.value
+  return name + '<br\>' + '峰值：' + (params.value - Y_OFFSET) + 'dBm'
 }
 
 var COLOR_LIST = [
