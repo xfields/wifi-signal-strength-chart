@@ -28,7 +28,7 @@ function getFreqRange(dataArr) {
 
 function getXAxisData(dataArr) {
   var freqRange = getFreqRange(dataArr)
-  var step = 0.05
+  var step = 0.01
   var x = freqRange[0]
   var xAxisData = []
   while(x <= freqRange[1]) {
@@ -96,16 +96,17 @@ function getEchartOptions(xAxisData, seriesData, options) {
       symbol: 'none',
       markLine: {
         silent: true,
+        animation: false,
         label: {
           normal: {
             formatter: item.name
           }
         },
         data: [[{
-          coord: [item.centerFreq, item.peak + 0.5],
+          coord: [item.centerFreq, item.peak * 1.1],
           symbol: 'none'
         }, {
-          coord: [item.centerFreq, item.peak + 0.5],
+          coord: [item.centerFreq, item.peak * 1.1],
           symbol: 'none'
         }]]
       },
@@ -166,12 +167,13 @@ function getEchartOptions(xAxisData, seriesData, options) {
         formatter: getTip
       },
       xAxis: {
+        interval: 1,
         axisLine: {
           lineStyle: {
             color: '#eee'
           }
         },
-        boundaryGap: [0, '20%'],
+        boundaryGap: [0, '5%'],
         splitLine: {
           show: false
         }

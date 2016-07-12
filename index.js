@@ -1,22 +1,22 @@
 var wifiChart = undefined
 
 var data = {
-  title: '2.4GHz',
+  title: 'wifi',
   wifiList: [{
-    name: 'my-2.4GHz-1',
-    centerFreq: 10,
-    bandwidth: 5,
-    peak: 10
+    name: 'NetDragon-FZ',
+    centerFreq: 1,
+    bandwidth: 2,
+    peak: 50
   }, {
-    name: 'my-2.4GHz-1',
-    centerFreq: 15,
-    bandwidth: 5,
-    peak: 15
+    name: 'NetDragon-FZ',
+    centerFreq: 11,
+    bandwidth: 2,
+    peak: 63
   }, {
-    name: 'my-2.4GHz-3',
-    centerFreq: 20,
-    bandwidth: 5,
-    peak: 8
+    name: 'NetDragon-FZ',
+    centerFreq: 6,
+    bandwidth: 2,
+    peak: 58
   }]
 }
 
