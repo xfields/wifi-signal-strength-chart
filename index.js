@@ -1,16 +1,17 @@
 var wifiChart = undefined
 
-var data = {
-  title: 'wifi',
-  wifiList: [{
-    name: 'NetDragon-FZ',
-    centerFreq: 4,
-    bandwidth: 2,
-    peak: 50
-  }]
-}
-
 function entry() {
+  var data = {
+    title: '',
+    wifiList: [
+      // {
+      //   name: 'NetDragon-FZ',
+      //   centerFreq: 4,
+      //   bandwidth: 2,
+      //   peak: 50
+      // }
+    ]
+  }
   setChartData(data)
 }
 

@@ -1,15 +1,26 @@
 
 var Y_OFFSET = 100
+
 /**
  * element {DOM Element} - element container for chart
  * dataArr {Array} - data series [{name, centerFreq, bandwidth, peak}]
  * options {Object} - options of echart, include: chartTitle
  */
 function drawWifiDbmChart(chart, dataArr, options) {
-  var dataArr = batchOffsetPeak(dataArr)
-  var xAxisData = getXAxisData(dataArr)
-  var seriesData = getInterpolatedData(dataArr, xAxisData) // 数据插值
-  var chartOpts = getEchartOptions(xAxisData, seriesData, options)
+  if (!chart) {
+    return
+  }
+
+  var chartOpts
+  if (dataArr.length) {
+    var dataArr = batchOffsetPeak(dataArr)
+    var xAxisData = getXAxisData(dataArr)
+    var seriesData = getInterpolatedData(dataArr, xAxisData) // 数据插值
+    chartOpts = getEchartOptions(seriesData, options)
+  } else {
+    chartOpts = getEchartOptions([], options)
+  }
+
   chart.setOption(chartOpts, true)
 }
 
@@ -18,19 +29,6 @@ function batchOffsetPeak(dataArr) {
     data.peak = Y_OFFSET - data.peak
     return data
   })
-}
-
-function batchConvertdBm(dataArr) {
-  return dataArr.map(function(data) {
-    var p = data.peak
-    data.peak = Math.pow(10, p / 10) * 1000
-    return data
-  })
-}
-
-// 微瓦 转 dBm
-function uw2dBm(uw) {
-  // return Math.pow(10, dBm / 10) * 1000
 }
 
 function getFreqRange(dataArr) {
@@ -105,13 +103,8 @@ function getYAxisData(xAxisData, B, f0, p) {
   })
 }
 
-function getSymbolSize(value, params) {
-  var name = params.seriesName
-  return [name.length * 8, 15]
-}
-
-function getEchartOptions(xAxisData, seriesData, options) {
-  var series = seriesData.map(function(item, index) {
+function getSeriesOptions(seriesData) {
+  return seriesData.map(function(item, index) {
     return {
       name: item.name + '#' + index, // series的name一样时，markLine只会显示一条
       type: 'line',
@@ -141,8 +134,6 @@ function getEchartOptions(xAxisData, seriesData, options) {
       markPoint: {
         symbol: 'circle',
         symbolSize: [6, 6],
-        // silent: true,
-        // symbolOffset: [0, '-60%'],
         label: {
           normal: {
             show: true,
@@ -162,8 +153,9 @@ function getEchartOptions(xAxisData, seriesData, options) {
       smooth: true
     }
   })
+}
 
-  // 指定图表的配置项和数据
+function getEchartOptions(seriesData, options) {
   return {
       title: {
         textStyle: {
@@ -224,7 +216,7 @@ function getEchartOptions(xAxisData, seriesData, options) {
         },
         boundaryGap: [0, '5%'],
       },
-      series: series
+      series: getSeriesOptions(seriesData)
   }
 }
 
