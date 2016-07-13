@@ -8,6 +8,42 @@ function entry() {
       //   name: 'NetDragon-FZ',
       //   centerFreq: 4,
       //   bandwidth: 2,
+      //   peak: -50
+      // },
+      // {
+      //   name: 'NetDragon-FZ',
+      //   centerFreq: 2,
+      //   bandwidth: 2,
+      //   peak: -63
+      // },
+      // {
+      //   name: 'NetDragon-FZ',
+      //   centerFreq: 6,
+      //   bandwidth: 2,
+      //   peak: -50
+      // },
+      // {
+      //   name: 'NetDragon-FZ',
+      //   centerFreq: 9,
+      //   bandwidth: 2,
+      //   peak: -63
+      // },
+      // {
+      //   name: 'NetDragon-FZ',
+      //   centerFreq: 11,
+      //   bandwidth: 2,
+      //   peak: -50
+      // },
+      // {
+      //   name: 'NetDragon-FZ',
+      //   centerFreq: 4,
+      //   bandwidth: 2,
+      //   peak: -50
+      // },
+      // {
+      //   name: 'NetDragon-FZ',
+      //   centerFreq: 4,
+      //   bandwidth: 2,
       //   peak: 50
       // }
     ]
