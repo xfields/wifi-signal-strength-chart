@@ -7,12 +7,8 @@ var Y_OFFSET = 100
  * options {Object} - options of echart, include: chartTitle
  */
 function drawWifiDbmChart(chart, dataArr, options) {
-  if (!chart) {
-    return
-  }
-
   var chartOpts
-  if (dataArr.length) {
+  if (dataArr && dataArr.length) {
     var dataArr = batchOffsetPeak(dataArr)
     var xAxisData = getXAxisData(dataArr)
     var seriesData = getInterpolatedData(dataArr, xAxisData) // 数据插值
@@ -49,7 +45,7 @@ function getFreqRange(dataArr) {
 
 function getXAxisData(dataArr) {
   var freqRange = getFreqRange(dataArr)
-  var step = 0.01
+  var step = 0.1
   var x = freqRange[0]
   var xAxisData = []
   while(x <= freqRange[1]) {
